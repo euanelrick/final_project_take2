@@ -1,0 +1,5 @@
+"0","accuracy_rf <- loans_rf_test_pred %>% "
+"0","  accuracy(truth = loan_paid_flag,"
+"0","           estimate = pred)"
+"0",""
+"0","accuracy_rf"

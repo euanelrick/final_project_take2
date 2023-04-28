@@ -1,0 +1,2 @@
+"0","loans_rf_test_pred_sig <- testing_loans %>% "
+"0","  mutate(pred = predict(rf_classifier_sig, data = testing_loans)$predictions)"

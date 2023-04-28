@@ -1,0 +1,27 @@
+{
+    "id": "16D2E16D",
+    "path": "~/Desktop/CodeClan/final_project_take2/cleaning_script.R",
+    "project_path": "cleaning_script.R",
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1682425761970.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "39,40",
+        "scrollLine": "28"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1682604336,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1682604336164,
+    "read_only": false,
+    "read_only_alternatives": []
+}

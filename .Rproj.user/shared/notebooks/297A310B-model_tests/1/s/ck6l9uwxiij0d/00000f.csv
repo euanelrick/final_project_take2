@@ -1,0 +1,5 @@
+"0","accuracy_rf_sig <- loans_rf_test_pred_sig %>% "
+"0","  accuracy(truth = loan_paid_flag,"
+"0","           estimate = pred)"
+"0",""
+"0","accuracy_rf_sig"

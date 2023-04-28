@@ -1,0 +1,57 @@
+---
+title: "Check for cleaning"
+output: html_notebook
+---
+
+
+```{r}
+library(tidyverse)
+library(skimr)
+```
+
+```{r}
+loans <- read_csv("data/lending_club_loans.csv")
+```
+
+```{r}
+skim(loans_clean)
+```
+
+
+```{r}
+loans_clean %>% 
+  select(where(is.numeric)) %>% 
+  arrange(revol_bal)
+```
+
+```{r}
+loans_clean %>% 
+  ggplot(aes(x = open_acc)) +
+  geom_histogram()
+
+loans_clean %>% 
+  ggplot(aes(x = log10(open_acc))) +
+  geom_histogram()
+```
+
+
+```{r}
+head(loans_model_data)
+```
+
+
+
+```{r}
+skim(loans_clean_viz)
+```
+
+```{r}
+loans_linreg_clean %>% 
+  ggplot(aes(x = profit)) +
+  geom_histogram()
+```
+
+
+
+
+

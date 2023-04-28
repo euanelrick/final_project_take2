@@ -1,0 +1,4 @@
+"0","```r
+loans_test_pred <- loans_test %>% 
+  mutate(pred = predict(rf_classifier, data = loans_test)$predictions)
+```"

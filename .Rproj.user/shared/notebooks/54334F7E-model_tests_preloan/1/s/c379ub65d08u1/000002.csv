@@ -1,0 +1,14 @@
+"0","```r
+# plot tree model
+rpart.plot(loans_fit,
+           yesno = 2,# writes yes no at all splits
+           fallen.leaves = FALSE,
+           faclen = 10,
+           digits = 2,
+           extra = 101,
+           split.border.col = 1
+           )
+
+```"
+"1","Error in strsplit(labs, \"\n\n\") : non-character argument
+"

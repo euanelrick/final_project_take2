@@ -1,0 +1,17 @@
+"0","```r
+importance(rf_classifier)
+
+```"
+"1","               loan_amnt              funded_amnt          funded_amnt_inv                 int_rate 
+               289.63098                290.52119                389.67568                465.86348 
+             installment                sub_grade               emp_length           home_ownership 
+               425.13400                160.85123                134.40641                 85.90006 
+              annual_inc income_verification_flag                  issue_d                      dti 
+               465.75326                 54.97112                339.80430                445.52879 
+             delinq_2yrs         earliest_cr_line                init_fico           inq_last_6mths 
+                63.22281                437.98110                298.94817                151.59468 
+                open_acc                  pub_rec                revol_bal               revol_util 
+               285.75996                 43.82795                450.96124                447.44348 
+               total_acc 
+               357.24823 
+"

@@ -1,0 +1,7 @@
+"0","```r
+sensitivity <- loans_test_pred %>% 
+  sensitivity(truth = loan_paid_flag,
+              estimate = pred)
+
+sensitivity
+```"

@@ -1,0 +1,10 @@
+"0","```r
+n_data <- nrow(test_data)
+
+test_index <- sample(1:n_data, size = n_data*0.2)
+
+loans_test <- slice(test_data, test_index)
+
+loans_train <- slice(test_data, -test_index)
+
+```"

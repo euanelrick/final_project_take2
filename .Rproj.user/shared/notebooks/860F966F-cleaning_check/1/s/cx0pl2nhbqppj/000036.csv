@@ -1,0 +1,28 @@
+"0","skim(loans_clean)
+"
+"1","── Data Summary ────────────────────────
+"
+"1","                           Values     
+"
+"1","Name                       loans_clean
+"
+"1","Number of rows             39261      
+"
+"1","Number of columns          27         
+"
+"1","_______________________               
+"
+"1","Column type frequency:                
+"
+"1","  character                1          
+"
+"1","  Date                     2          
+"
+"1","  factor                   6          
+"
+"1","  numeric                  18         
+"
+"1","________________________              
+"
+"1","Group variables            None       
+"

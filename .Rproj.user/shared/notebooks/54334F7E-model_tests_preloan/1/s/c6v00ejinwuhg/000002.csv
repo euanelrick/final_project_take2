@@ -1,0 +1,14 @@
+"0","```r
+test_data <- loans_clean %>% 
+  mutate(loan_amnt = log10(loan_amnt),
+         funded_amnt = log10(funded_amnt),
+         int_rate = log10(int_rate),
+         installment = log10(installment),
+         annual_inc = log10(annual_inc),
+         open_acc = log10(open_acc),
+         total_acc = log10(total_acc),
+         total_pymnt = log10(total_pymnt),
+         total_rec_int = log10(total_rec_int)
+         ) %>% 
+  select(loan_amnt:total_acc)
+```"

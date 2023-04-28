@@ -1,0 +1,11 @@
+"0","```r
+rf_classifier <- ranger(formula = loan_paid_flag ~ .,
+                        data = loans_train,
+                        importance = \"impurity\",
+                        num.trees = 1000,
+                        mtry = 3,
+                        min.node.size = 5)
+
+```"
+"1","Growing trees.. Progress: 87%. Estimated remaining time: 4 seconds.
+"

@@ -1,0 +1,11 @@
+"0","```r
+source(file = \"cleaning_script.R\")
+```"
+"1","Rows: 42538 Columns: 114── Column specification ────────────────────────────────────────────────────────────────────────────────
+Delimiter: \",\"
+chr (22): term, int_rate, sub_grade, emp_title, emp_length, home_ownership, verification_status, iss...
+dbl (37): id, member_id, loan_amnt, funded_amnt, funded_amnt_inv, installment, annual_inc, dti, deli...
+lgl (55): initial_list_status, mths_since_last_major_derog, annual_inc_joint, dti_joint, verificatio...
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+"

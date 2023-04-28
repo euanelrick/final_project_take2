@@ -1,0 +1,12 @@
+"0","```r
+loans_clean %>% 
+  group_by(sub_grade, loan_paid_flag) %>% 
+  summarise(n = n()) %>% 
+  mutate(prop = n/sum(n)) %>% 
+  ggplot(aes(x = sub_grade, y = prop, fill = loan_paid_flag))+
+  geom_col() +
+  coord_flip()
+
+```"
+"1","`summarise()` has grouped output by 'sub_grade'. You can override using the `.groups` argument.
+"

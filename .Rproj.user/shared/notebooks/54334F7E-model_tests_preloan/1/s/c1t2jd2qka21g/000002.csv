@@ -1,0 +1,11 @@
+"0","```r
+conf_mat <- loans_test_pred %>% 
+  conf_mat(truth = loan_paid_flag, estimate = pred)
+
+conf_mat
+```"
+"1","          Truth
+Prediction    0    1
+         0    0    0
+         1 1057 6637
+"

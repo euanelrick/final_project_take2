@@ -1,0 +1,4 @@
+"0","```r
+loans_test_pred <- loans_test %>% 
+  add_predictions(model = loans_fit, type = \"class\")
+```"

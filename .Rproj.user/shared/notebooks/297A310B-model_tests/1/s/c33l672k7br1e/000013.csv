@@ -1,0 +1,13 @@
+"0","source(""cleaning_script.R"")"
+"2","[1mRows: [22m[34m42538[39m [1mColumns: [22m[34m114[39m"
+"2","[36m──[39m [1mColumn specification[22m [36m────────────────────────────────────────────────────────────────────────────────[39m
+[1mDelimiter:[22m "",""
+[31mchr[39m (22): term, int_rate, sub_grade, emp_title, emp_length, home_ownership, verification_status, iss...
+[32mdbl[39m (37): id, member_id, loan_amnt, funded_amnt, funded_amnt_inv, installment, annual_inc, dti, deli...
+[33mlgl[39m (55): initial_list_status, mths_since_last_major_derog, annual_inc_joint, dti_joint, verificatio..."
+"2","
+[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
+[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message."
+"2","Error in select(., loan_amnt:int_rate, sub_grade, emp_length:loan_status,  : 
+  unused arguments (loan_amnt:int_rate, sub_grade, emp_length:loan_status, purpose, dti, earliest_cr_line:inq_last_6mths, open_acc:revol_util, pub_rec_bankruptcies)
+"

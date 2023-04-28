@@ -1,0 +1,8 @@
+"0","loans_clean_viz %>% 
+  group_by(issue_d, loan_paid_flag) %>% 
+  summarise(count = n()) %>% 
+  ggplot()+
+  aes(x = issue_d, y = count, colour = loan_paid_flag) +
+  geom_line()
+"
+"2","`summarise()` has grouped output by 'issue_d'. You can override using the `.groups` argument."

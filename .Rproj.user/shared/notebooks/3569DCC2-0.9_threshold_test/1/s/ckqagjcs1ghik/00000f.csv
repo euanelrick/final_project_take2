@@ -1,0 +1,84 @@
+"0","library(tidyverse)"
+"0","library(modelr)"
+"0","library(janitor)"
+"2","
+Attaching package: ‘janitor’
+
+"
+"2","The following objects are masked from ‘package:stats’:
+
+    chisq.test, fisher.test
+
+"
+"0","library(GGally)"
+"2","Registered S3 method overwritten by 'GGally':
+  method from   
+  +.gg   ggplot2
+"
+"0","library(pROC)"
+"2","Type 'citation(""pROC"")' for a citation.
+"
+"2","
+Attaching package: ‘pROC’
+
+"
+"2","The following objects are masked from ‘package:stats’:
+
+    cov, smooth, var
+
+"
+"0","library(yardstick)"
+"2","For binary classification, the first factor level is assumed to be the event.
+Use the argument `event_level = ""second""` to alter this as needed.
+"
+"2","
+Attaching package: ‘yardstick’
+
+"
+"2","The following objects are masked from ‘package:modelr’:
+
+    mae, mape, rmse
+
+"
+"2","The following object is masked from ‘package:readr’:
+
+    spec
+
+"
+"0","library(ranger)"
+"0","library(caret)"
+"2","Loading required package: lattice
+"
+"2","Registered S3 method overwritten by 'data.table':
+  method           from
+  print.data.table     
+"
+"2","
+Attaching package: ‘caret’
+
+"
+"2","The following objects are masked from ‘package:yardstick’:
+
+    precision, recall, sensitivity, specificity
+
+"
+"2","The following object is masked from ‘package:purrr’:
+
+    lift
+
+"
+"0","library(MASS)"
+"2","
+Attaching package: ‘MASS’
+
+"
+"2","The following object is masked from ‘package:dplyr’:
+
+    select
+
+"
+"0","library(caTools)"
+"0","library(ROSE)"
+"2","Loaded ROSE 0.0-4
+
+"

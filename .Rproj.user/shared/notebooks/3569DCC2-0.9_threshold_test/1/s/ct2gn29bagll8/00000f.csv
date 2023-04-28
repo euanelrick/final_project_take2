@@ -1,0 +1,5 @@
+"0","split <- sample.split(loans_model_data$loan_paid_flag, SplitRatio = 0.8)"
+"0","training_loans <- loans_model_data[split, ] %>% "
+"0","  drop_na()"
+"0","testing_loans <- loans_model_data[!split, ] %>% "
+"0","  drop_na()"

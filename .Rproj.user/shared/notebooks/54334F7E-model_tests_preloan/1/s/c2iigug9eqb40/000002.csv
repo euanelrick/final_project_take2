@@ -1,0 +1,17 @@
+"0","```r
+
+loans_test %>% 
+  tabyl(loan_paid_flag)
+```"
+"1"," loan_paid_flag    n   percent
+              0 1057 0.1373798
+              1 6637 0.8626202
+"
+"0","```r
+loans_train %>% 
+  tabyl(loan_paid_flag)
+```"
+"1"," loan_paid_flag     n   percent
+              0  4073 0.1323305
+              1 26706 0.8676695
+"

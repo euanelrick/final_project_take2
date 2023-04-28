@@ -1,0 +1,4 @@
+"0",""
+"0","loans_clean %>% "
+"0","  ggplot(aes(x = log10(open_acc))) +"
+"0","  geom_histogram()"

@@ -1,0 +1,465 @@
+---
+title: "Model Building"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(modelr)
+library(janitor)
+library(GGally)
+library(pROC)
+library(yardstick)
+library(ranger)
+library(caret)
+library(MASS)
+library(caTools)
+library(ROSE)
+library(leaps)
+library(glmulti)
+```
+
+```{r}
+source("cleaning_script.R")
+```
+```{r}
+split <- sample.split(loans_model_data$loan_paid_flag, SplitRatio = 0.7)
+training_loans <- loans_model_data[split, ] %>% 
+  drop_na()
+testing_loans <- loans_model_data[!split, ] %>% 
+  drop_na()
+```
+
+
+## Logistic Regression Models
+
+
+
+```{r}
+
+logreg_model_all_training <- glm(
+  loan_paid_flag ~ .,
+  data = training_loans,
+  family = binomial(link = "logit")
+)
+
+summary(logreg_model_all_training)
+
+logreg_pred_all_training <- training_loans %>% 
+  add_predictions(logreg_model_all_training, type = "response")
+
+logreg_roc_all_training <- logreg_pred_all_training %>% 
+  roc(response = loan_paid_flag, predictor = pred)
+
+
+logreg_all_roc_curve_training <- ggroc(data = logreg_roc_all_training, legacy.axes = TRUE) +
+  coord_fixed() + 
+  ylab("sensitivity (TPR)") + 
+  xlab("1-specificity (TNR)")
+
+
+logreg_all_roc_curve_training
+
+auc(logreg_roc_all_training)
+
+threshold <- 0.8
+
+logreg_pred_all_threshold_training <- logreg_pred_all_training %>% 
+  mutate(pred_thresh_0.8 = pred >= threshold)
+
+
+conf_table_logreg_all_training <- logreg_pred_all_threshold_training %>%
+  tabyl(loan_paid_flag, pred_thresh_0.8)
+
+conf_table_logreg_all_training
+
+
+```
+
+
+
+```{r}
+logreg_model_all_test <- glm(
+  loan_paid_flag ~ .,
+  data = testing_loans,
+  family = binomial(link = "logit")
+)
+
+summary(logreg_model_all_test)
+
+logreg_pred_all_test <- testing_loans %>% 
+  add_predictions(logreg_model_all_test, type = "response")
+
+logreg_roc_all_test <- logreg_pred_all_test %>% 
+  roc(response = loan_paid_flag, predictor = pred)
+
+
+logreg_all_roc_curve_test <- ggroc(data = logreg_roc_all_test, legacy.axes = TRUE) +
+  coord_fixed() + 
+  ylab("sensitivity (TPR)") + 
+  xlab("1-specificity (TNR)")
+
+
+logreg_all_roc_curve_test
+
+auc(logreg_roc_all_test)
+
+threshold <- 0.8
+
+logreg_pred_all_threshold_test <- logreg_pred_all_test %>% 
+  mutate(pred_thresh_0.8 = pred >= threshold)
+
+
+conf_table_logreg_all_test <- logreg_pred_all_threshold_test %>%
+  tabyl(loan_paid_flag, pred_thresh_0.8)
+
+conf_table_logreg_all_test
+```
+
+
+
+
+
+
+```{r}
+
+logreg_model_sig_training <- glm(
+  loan_paid_flag ~ funded_amnt_inv + int_rate + term_mths + annual_inc + purpose +
+    inq_last_6mths + revol_util,
+  data = training_loans,
+  family = binomial(link = "logit")
+)
+
+summary(logreg_model_sig_training)
+
+logreg_pred_sig_training <- training_loans %>% 
+  add_predictions(logreg_model_sig_training, type = "response")
+
+logreg_roc_sig_training <- logreg_pred_sig_training %>% 
+  roc(response = loan_paid_flag, predictor = pred)
+
+
+logreg_sig_roc_curve_training <- ggroc(data = logreg_roc_sig_training, legacy.axes = TRUE) +
+  coord_fixed() + 
+  ylab("sensitivity (TPR)") + 
+  xlab("1-specificity (TNR)")
+
+
+logreg_sig_roc_curve_training
+
+auc(logreg_roc_sig_training)
+
+threshold <- 0.8
+
+logreg_pred_sig_threshold_training <- logreg_pred_sig_training %>% 
+  mutate(pred_thresh_0.8 = pred >= threshold)
+
+
+conf_table_logreg_sig_training <- logreg_pred_sig_threshold_training %>%
+  tabyl(loan_paid_flag, pred_thresh_0.8)
+
+conf_table_logreg_sig_training
+```
+
+```{r}
+
+logreg_model_sig_test <- glm(
+  loan_paid_flag ~ funded_amnt_inv + int_rate + term_mths + annual_inc  +
+    inq_last_6mths + revol_util,
+  data = testing_loans,
+  family = binomial(link = "logit")
+)
+
+summary(logreg_model_sig_test)
+
+logreg_pred_sig_test <- testing_loans %>% 
+  add_predictions(logreg_model_sig_test, type = "response")
+
+logreg_roc_sig_test <- logreg_pred_sig_test %>% 
+  roc(response = loan_paid_flag, predictor = pred)
+
+
+logreg_sig_roc_curve_test <- ggroc(data = logreg_roc_sig_test, legacy.axes = TRUE) +
+  coord_fixed() + 
+  ylab("sensitivity (TPR)") + 
+  xlab("1-specificity (TNR)")
+
+
+logreg_sig_roc_curve_test
+
+auc(logreg_roc_sig_test)
+
+threshold <- 0.8
+
+logreg_pred_sig_threshold_test <- logreg_pred_sig_test %>% 
+  mutate(pred_thresh_0.8 = pred >= threshold)
+
+
+conf_table_logreg_sig_test <- logreg_pred_sig_threshold_test %>%
+  tabyl(loan_paid_flag, pred_thresh_0.8)
+
+conf_table_logreg_sig_test
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Random Forest
+
+```{r}
+rf_classifier <- ranger(formula = loan_paid_flag ~ .,
+                        data = training_loans,
+                        importance = "impurity",
+                        num.trees = 1000,
+                        mtry = 3,
+                        min.node.size = 5)
+
+rf_classifier
+```
+
+```{r}
+importance(rf_classifier)
+```
+
+```{r}
+loans_rf_test_pred <- testing_loans %>% 
+  mutate(pred = predict(rf_classifier, data = testing_loans)$predictions)
+```
+
+```{r}
+conf_mat_rf <- loans_rf_test_pred %>% 
+  conf_mat(truth = loan_paid_flag, estimate = pred)
+
+conf_mat_rf
+```
+
+
+
+```{r}
+accuracy_rf <- loans_rf_test_pred %>% 
+  accuracy(truth = loan_paid_flag,
+           estimate = pred)
+
+accuracy_rf
+```
+
+
+
+```{r}
+rf_classifier_sig <- ranger(formula = loan_paid_flag ~ revol_bal + revol_util + 
+                              dti + int_rate + annual_inc + funded_amnt_inv,
+                        data = training_loans,
+                        importance = "impurity",
+                        num.trees = 1000,
+                        mtry = 3,
+                        min.node.size = 5)
+
+rf_classifier_sig
+```
+
+```{r}
+importance(rf_classifier_sig)
+```
+
+```{r}
+loans_rf_test_pred_sig <- testing_loans %>% 
+  mutate(pred = predict(rf_classifier_sig, data = testing_loans)$predictions)
+```
+
+```{r}
+conf_mat_rf_sig <- loans_rf_test_pred_sig %>% 
+  conf_mat(truth = loan_paid_flag, estimate = pred)
+
+conf_mat_rf_sig
+```
+
+
+
+```{r}
+accuracy_rf_sig <- loans_rf_test_pred_sig %>% 
+  accuracy(truth = loan_paid_flag,
+           estimate = pred)
+
+accuracy_rf_sig
+```
+
+
+
+```{r}
+sensitivity_rf <- loans_rf_test_pred %>% 
+  yardstick::sensitivity(truth = loan_paid_flag,
+              estimate = pred)
+
+sensitivity_rf
+
+specificity_rf <- loans_rf_test_pred %>% 
+  yardstick::specificity(truth = loan_paid_flag,
+              estimate = pred)
+
+specificity_rf
+
+```
+
+
+
+
+
+```{r}
+loans_automodel_all <- glm(loan_paid_flag ~., data = training_loans, family = binomial) %>%
+  stepAIC(trace = FALSE, direction = "both")
+
+summary(loans_automodel_all)
+
+automodel_all_pred_test <- testing_loans %>% 
+  add_predictions(loans_automodel_all, type = "response")
+
+automodel_roc_all_test <- automodel_all_pred_test %>% 
+  roc(response = loan_paid_flag, predictor = pred)
+
+
+automodel_all_roc_curve_test <- ggroc(data = automodel_roc_all_test, legacy.axes = TRUE) +
+  coord_fixed() + 
+  ylab("sensitivity (TPR)") + 
+  xlab("1-specificity (TNR)")
+
+
+automodel_all_roc_curve_test
+
+auc(automodel_roc_all_test)
+
+threshold <- 0.8
+
+automodel_pred_all_threshold_test <- automodel_all_pred_test %>% 
+  mutate(pred_thresh_0.8 = pred >= threshold)
+
+
+conf_table_automodel_all_test <- automodel_pred_all_threshold_test %>%
+  tabyl(loan_paid_flag, pred_thresh_0.8)
+
+conf_table_automodel_all_test
+```
+
+
+
+
+```{r}
+loans_automodel_sig <- glm(loan_paid_flag ~ term_mths + int_rate + annual_inc +
+                             purpose + inq_last_6mths + pub_rec_bankruptcies +
+                             funded_amnt, 
+                           data = training_loans, 
+                           family = binomial) %>%
+  stepAIC(trace = FALSE, direction = "both")
+
+summary(loans_automodel_sig)
+
+automodel_sig_pred_test <- testing_loans %>% 
+  add_predictions(loans_automodel_sig, type = "response")
+
+automodel_roc_sig_test <- automodel_sig_pred_test %>% 
+  roc(response = loan_paid_flag, predictor = pred)
+
+
+automodel_sig_roc_curve_test <- ggroc(data = automodel_roc_sig_test, legacy.axes = TRUE) +
+  coord_fixed() + 
+  ylab("sensitivity (TPR)") + 
+  xlab("1-specificity (TNR)")
+
+
+automodel_sig_roc_curve_test
+
+auc(automodel_roc_sig_test)
+
+threshold <- 0.8
+
+automodel_pred_sig_threshold_test <- automodel_sig_pred_test %>% 
+  mutate(pred_thresh_0.8 = pred >= threshold)
+
+
+conf_table_automodel_sig_test <- automodel_pred_sig_threshold_test %>%
+  tabyl(loan_paid_flag, pred_thresh_0.8)
+
+conf_table_automodel_sig_test
+```
+
+## SMOTE
+
+```{r}
+train_data_smote <- ovun.sample(loan_paid_flag ~ .,
+                                data = training_loans,
+                                N = nrow(training_loans))$data %>% 
+  drop_na()
+
+
+smote_model <- glm(
+  loan_paid_flag ~ .,
+  data = train_data_smote,
+  family = binomial()
+)
+
+summary(smote_model)
+
+for (var in names(training_loans)) {
+  if (is.factor(training_loans[[var]]) && is.factor(testing_loans[[var]])) {
+    train_levels <- levels(training_loans[[var]])
+    test_levels <- levels(testing_loans[[var]])
+    diff_levels <- setdiff(test_levels, train_levels)
+    if (length(diff_levels) > 0) {
+      message(paste("Warning: variable", var, "has new levels:", paste(diff_levels, collapse = ", ")))
+      testing_loans[[var]] <- factor(testing_loans[[var]], levels = c(train_levels, diff_levels))
+    }
+  }
+}
+
+
+smote_pred_test <- testing_loans %>% 
+  add_predictions(smote_model, type = "response")
+
+smote_roc_test <- smote_pred_test %>% 
+  roc(response = loan_paid_flag, predictor = pred)
+
+
+smote_roc_curve_test <- ggroc(data = smote_roc_test, legacy.axes = TRUE) +
+  coord_fixed() + 
+  ylab("sensitivity (TPR)") + 
+  xlab("1-specificity (TNR)")
+
+
+smote_roc_curve_test
+
+auc(smote_roc_test)
+
+threshold <- 0.8
+
+smote_pred_threshold_test <- smote_pred_test %>% 
+  mutate(pred_thresh_0.8 = pred >= threshold)
+
+
+conf_table_smote_test <- smote_pred_threshold_test %>%
+  tabyl(loan_paid_flag, pred_thresh_0.8)
+
+conf_table_smote_test
+
+```
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,28 @@
+{
+    "id": "A9C6A384",
+    "path": null,
+    "project_path": null,
+    "type": "object_explorer",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1682601119727.0,
+    "source_on_save": false,
+    "relative_order": 5,
+    "properties": {
+        "id": "360297a946ae4fe499674586ad02a56a",
+        "name": "smote_model",
+        "title": "smote_model",
+        "language": "R",
+        "source_window_id": "",
+        "Source": "Source"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 140568251992400,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1682601119727,
+    "read_only": false,
+    "read_only_alternatives": []
+}
