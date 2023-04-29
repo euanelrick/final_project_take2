@@ -144,7 +144,7 @@ state_prop_paid <- loans_clean_viz %>%
   select(state_name, prop, addr_state) %>% 
   rename(state = state_name)
 
-state_prop_paid <- state_prop_paid[order(state_prop_paid$state_name),] 
+state_prop_paid <- state_prop_paid[order(state_prop_paid$state),] 
 
 
 
@@ -192,6 +192,16 @@ plot_usmap(data = state_mean_prof,
   )
 ```
 
+```{r}
+loans_clean_viz %>% 
+  group_by(loan_amnt, loan_paid_flag) %>% 
+  summarise(n = n()) %>% 
+  mutate(prop = n/sum(n)) %>% 
+  filter(n >= 5) %>% 
+  ggplot(aes(x = loan_amnt, y = prop)) +
+  geom_point()
+  
+```
 
 
 

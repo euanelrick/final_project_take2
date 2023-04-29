@@ -1,7 +1,6 @@
-"0","loans_clean_viz %>% 
-  group_by(sub_grade, issue_d) %>% 
-  summarise(mean_int_rate = mean(int_rate)) %>% 
-  ggplot(aes(x = issue_d, y = mean_int_rate, colour = sub_grade)) +
-  geom_line()
-"
+"0","loans_clean_viz %>% "
+"0","  group_by(sub_grade, issue_d) %>% "
+"0","  summarise(mean_int_rate = mean(int_rate)) %>% "
+"0","  ggplot(aes(x = issue_d, y = mean_int_rate, colour = sub_grade)) +"
+"0","  geom_line()"
 "2","`summarise()` has grouped output by 'sub_grade'. You can override using the `.groups` argument."

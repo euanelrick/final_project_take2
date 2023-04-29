@@ -1,9 +1,0 @@
-"0","loans_clean_viz %>% 
-  group_by(home_ownership, loan_paid_flag) %>% 
-  summarise(n = n()) %>% 
-  mutate(prop = n/sum(n)) %>% 
-  ggplot(aes(x = home_ownership, y = prop, fill = loan_paid_flag))+
-  geom_col() +
-  coord_flip()
-"
-"2","`summarise()` has grouped output by 'home_ownership'. You can override using the `.groups` argument."
