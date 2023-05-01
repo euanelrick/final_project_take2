@@ -20,7 +20,14 @@ loans_clean_viz %>%
   mutate(prop = n/sum(n)) %>% 
   ggplot(aes(x = sub_grade, y = prop, fill = loan_paid_flag))+
   geom_col() +
-  coord_flip()
+  coord_flip() +
+  theme_minimal() +
+  labs(
+    x = "Grade\n",
+    y = "\nProportion",
+    fill = "Was the loan paid?",
+    title = "Proportion of Loans Paid by each Creditworthiness Grade\n"
+  )
 ```
 
 
@@ -29,7 +36,11 @@ loans_clean_viz %>%
   group_by(sub_grade, issue_d) %>% 
   summarise(mean_int_rate = mean(int_rate)) %>% 
   ggplot(aes(x = issue_d, y = mean_int_rate, colour = sub_grade)) +
-  geom_line()
+  geom_line() +
+  theme_minimal()+
+  labs(x = "\nIssue Date",
+       y = "Interest Rate\n",
+       colour = "Grade")
 ```
 
 ```{r}
