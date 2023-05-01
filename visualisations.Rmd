@@ -48,7 +48,8 @@ loans_clean_viz %>%
   ) +
   labs(x = "\nIssue Date",
        y = "Interest Rate\n",
-       colour = "Grade") + 
+       colour = "Grade",
+       title = "Interest Rate by Issue Date of Loan") + 
   theme(
    text = element_text(size = 14)
   ) 
@@ -255,6 +256,15 @@ loans_clean_viz %>%
   
   
 ```
+
+```{r}
+loans_model_data %>% 
+  group_by(loan_paid_flag) %>% 
+  summarise(n = n())
+```
+
+
+
 
 
 
