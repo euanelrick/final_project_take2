@@ -19,7 +19,7 @@ loans_clean_viz %>%
   summarise(n = n()) %>% 
   mutate(prop = n/sum(n)) %>% 
   ggplot(aes(x = sub_grade, y = prop, fill = loan_paid_flag))+
-  geom_col() +
+  geom_col(width = 0.9, just = 0.5) +
   coord_flip() +
   theme_minimal() +
   labs(
@@ -27,7 +27,14 @@ loans_clean_viz %>%
     y = "\nProportion",
     fill = "Was the loan paid?",
     title = "Proportion of Loans Paid by each Creditworthiness Grade\n"
+  ) +
+  theme(
+    text = element_text(size = 12)
+  ) +
+  scale_fill_manual(
+    values = c("#ef4123", "#002a4e")
   )
+
 ```
 
 
@@ -36,11 +43,15 @@ loans_clean_viz %>%
   group_by(sub_grade, issue_d) %>% 
   summarise(mean_int_rate = mean(int_rate)) %>% 
   ggplot(aes(x = issue_d, y = mean_int_rate, colour = sub_grade)) +
-  geom_line() +
-  theme_minimal()+
+  geom_line(size = 1.1) +
+  theme_minimal(
+  ) +
   labs(x = "\nIssue Date",
        y = "Interest Rate\n",
-       colour = "Grade")
+       colour = "Grade") + 
+  theme(
+   text = element_text(size = 14)
+  ) 
 ```
 
 ```{r}
@@ -49,17 +60,24 @@ loans_clean_viz %>%
   summarise(count = n()) %>% 
   ggplot()+
   aes(x = issue_d, y = count, colour = loan_paid_flag) +
-  geom_line()
+  geom_line(size = 1.5) +
+  theme_minimal() +
+  theme(
+    text = element_text(size = 16)
+  ) +
+  labs(
+    x = "\nDate",
+    y = "Count\n",
+    colour = "Was the loan paid?",
+    title = "Number of Loans Paid by Issue Date of Loan\n"
+  ) +
+  scale_colour_manual(
+    values = c("#ef4123", "#002a4e")
+  )
 ```
 
 
-```{r}
-loans_clean_viz %>% 
-  group_by(last_pymnt_d) %>% 
-  summarise(mean_int = mean(int_rate)) %>% 
-  ggplot(aes(x = last_pymnt_d, y = mean_int)) +
-  geom_line()
-```
+
 
 ```{r}
 loans_clean_viz$emp_length <- factor(loans_clean_viz$emp_length, 
@@ -82,33 +100,83 @@ loans_clean_viz %>%
   group_by(loan_paid_flag) %>% 
   ggplot(aes(x = log10(annual_inc), y = stat(density), fill = loan_paid_flag))+
   geom_histogram() +
-  facet_wrap(~loan_paid_flag)
+  facet_wrap(~loan_paid_flag) +
+  theme_minimal()+
+  theme(
+    text = element_text(size = 14)
+  ) +
+  labs(
+    x = "\nAnnual Income (log10)",
+    y = "Density\n",
+    title = "Distribution of Annual Incomes by Loan Paid Status",
+    fill = "Was the loan paid?"
+  ) +
+  scale_fill_manual(
+    values = c("#ef4123", "#002a4e")
+  )
 ```
 
 
-```{r}
-loans_clean_viz$home_ownership <- factor(loans_clean_viz$home_ownership,
-                                         levels = c(
-                                           "OWN", "MORTGAGE", "RENT", "OTHER"
-                                         ))
-
-loans_clean_viz %>% 
-  group_by(home_ownership, loan_paid_flag) %>% 
-  summarise(n = n()) %>% 
-  mutate(prop = n/sum(n)) %>% 
-  ggplot(aes(x = home_ownership, y = prop, fill = loan_paid_flag))+
-  geom_col() +
-  coord_flip()
-```
 
 ```{r}
 loans_clean_viz %>% 
   group_by(purpose, loan_paid_flag) %>% 
   summarise(n = n()) %>% 
   mutate(prop = n/sum(n)) %>% 
+  filter(loan_paid_flag == "Yes") %>% 
+  arrange(prop) %>% 
+  head(6)
+
+
+
+loans_clean_viz %>% 
+  filter(purpose %in% c("small_business", "renewable_energy", "other", 
+                        "educational", "debt_consolidation")) %>% 
+  group_by(purpose, loan_paid_flag) %>% 
+  summarise(n = n()) %>% 
+  mutate(prop = n/sum(n)) %>% 
+
+  ggplot(aes(x = purpose, y = prop, fill = loan_paid_flag)) +
+  geom_col() +
+  coord_flip() +
+  theme_minimal() +
+  labs(
+    x = "Purpose\n",
+    y = "\nProportion",
+    fill = "Was the loan paid?",
+    title = "Proportion of Loans Paid by each Loan Purpose\n"
+  ) +
+  theme(
+    text = element_text(size = 12)
+  ) +
+  scale_fill_manual(
+    values = c("#ef4123", "#002a4e")
+  )
+
+
+
+loans_clean_viz %>% 
+  group_by(purpose, loan_paid_flag) %>% 
+  summarise(n = n()) %>% 
+  mutate(prop = n/sum(n)) %>% 
   ggplot(aes(x = purpose, y = prop, fill = loan_paid_flag))+
   geom_col() +
-  coord_flip()
+  coord_flip() +
+  theme_minimal() +
+  labs(
+    x = "Purpose\n",
+    y = "\nProportion",
+    fill = "Was the loan paid?",
+    title = "Proportion of Loans Paid by each Loan Purpose\n"
+  ) +
+  theme(
+    text = element_text(size = 12)
+  ) +
+  scale_fill_manual(
+    values = c("#ef4123", "#002a4e")
+  )
+
+
 ```
 
 ```{r}
@@ -116,7 +184,7 @@ loans_clean_viz %>%
   group_by(loan_paid_flag) %>% 
   ggplot(aes(x = open_acc, y = stat(density), fill = loan_paid_flag)) +
   geom_histogram()+
-  facet_wrap(~loan_paid_flag)
+  facet_wrap(~loan_paid_flag) 
 ```
 
 
@@ -130,15 +198,6 @@ loans_clean_viz %>%
 ```
 
 
-```{r}
-loans_clean_viz %>% 
-  group_by(addr_state, loan_paid_flag) %>% 
-  summarise(n = n()) %>% 
-  mutate(prop = n/sum(n)) %>% 
-  ggplot(aes(x = addr_state, y = prop, fill = loan_paid_flag))+
-  geom_col() +
-  coord_flip() 
-```
 
 ```{r}
 states <- read_csv("data/state_names_info.csv")
@@ -162,8 +221,8 @@ state_prop_paid <- state_prop_paid[order(state_prop_paid$state),]
 plot_usmap(data = state_prop_paid,
            values = "prop",
            labels = TRUE) +
-  scale_fill_gradient(low = "#FFCDD1",
-                      high = "#C62828",
+  scale_fill_gradient(low = "#f8d0c9",
+                      high = "#ef4123",
                       name = NULL) +
   theme(
     legend.position = c(0.5, -0.01),
@@ -175,42 +234,25 @@ plot_usmap(data = state_prop_paid,
 ```
 
 
-```{r}
-state_mean_prof <- loans_clean_viz %>% 
-  group_by(addr_state, loan_paid_flag) %>% 
-  summarise(mean_profit = median(profit)) %>% 
-  left_join(states, by = c("addr_state" = "state_abb")) %>% 
-  select(state_name, mean_profit, addr_state) %>% 
-  rename(state = state_name)
-
-state_mean_prof <- state_mean_prof[order(state_mean_prof$state),] 
-
-
-
-plot_usmap(data = state_mean_prof,
-           values = "mean_profit",
-           labels = TRUE) +
-  scale_fill_gradient2(low = "blue4",
-                       mid = "white",
-                      high = "#C62828",
-                      name = NULL) +
-  theme(
-    legend.position = c(0.5, -0.01),
-    legend.direction = "horizontal",
-    legend.key.width = unit(0.5, "in"),
-    legend.key.height = unit(0.3, "in"),
-    legend.text = element_text(size = 10)
-  )
-```
 
 ```{r}
 loans_clean_viz %>% 
   group_by(loan_amnt, loan_paid_flag) %>% 
   summarise(n = n()) %>% 
   mutate(prop = n/sum(n)) %>% 
-  filter(n >= 5) %>% 
+  filter(n >= 5, loan_paid_flag == "Yes") %>% 
   ggplot(aes(x = loan_amnt, y = prop)) +
-  geom_point()
+  geom_point(size = 2, colour = "#ef4123") +
+  theme_minimal() +
+  labs(
+    x = "\nLoan Amount ($)",
+    y = "Proportion\n",
+    title = "Proportion of Loans Paid by Loan Amount\n"
+  )+
+  theme(
+    text = element_text(size = 14)
+  ) 
+  
   
 ```
 
