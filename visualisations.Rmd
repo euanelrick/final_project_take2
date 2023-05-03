@@ -52,31 +52,39 @@ loans_clean_viz %>%
        title = "Interest Rate by Issue Date of Loan") + 
   theme(
    text = element_text(size = 14)
-  ) 
+  ) + scale_color_manual(
+values = c(
+"#1f77b4",
+"#ff7f0e",
+"#2ca02c",
+"#d62728",
+"#9467bd",
+"#8c564b",
+"#e377c2"
+))
+
 ```
 
 ```{r}
 loans_clean_viz %>% 
   group_by(issue_d, loan_paid_flag) %>% 
-  summarise(count = n()) %>% 
+  summarise(n = n()) %>% 
+  mutate(prop = n/sum(n)) %>%
+  filter(loan_paid_flag == "Yes") %>% 
   ggplot()+
-  aes(x = issue_d, y = count, colour = loan_paid_flag) +
-  geom_line(size = 1.5) +
+  aes(x = issue_d, y = prop) +
+  geom_line(col = "#002a4e", size = 2) +
   theme_minimal() +
   theme(
     text = element_text(size = 16)
   ) +
   labs(
     x = "\nDate",
-    y = "Count\n",
-    colour = "Was the loan paid?",
-    title = "Number of Loans Paid by Issue Date of Loan\n"
-  ) +
-  scale_colour_manual(
-    values = c("#ef4123", "#002a4e")
-  )
+    y = "Proportion\n",
+    fill = "Was the loan paid?",
+    title = "Proportion of Loans Successfully Paid by Date\n"
+  ) 
 ```
-
 
 
 
