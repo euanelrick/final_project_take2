@@ -1,0 +1,99 @@
+---
+title: "PDA Project Documentation"
+output: html_notebook
+---
+
+# Context
+
+## Business Intelligence and Data-Driven Decision Making
+
+Business can gain insight into who is defaulting and what main factors in 
+defaulting are. Business can use this to avoid giving out loans to borrowers
+who are more likely to default on their loans.
+
+## Domain Knowledge and Business Context
+
+LendingClub is a peer-to-peer lending platform which operates exclusively in the 
+United States.
+
+The platform uses a proprietary grading system based on the creditworthiness of 
+the borrower. This grade determines the interest rate given to the customer, 
+where customers with a lower grade are typically given loans with higher interest 
+rates.
+
+My analysis fits into deciding which borrowers loans should be given to in order
+to avoid defaults.
+
+# Data
+
+## Sources
+
+The data was three datasets from an internal source, and one external source on
+US state names.
+
+## Variable Categories
+
+The data consisted continuous and discrete numeric variables, categorical 
+variables, ordinal variables, dates, and location data.
+
+## Formats
+
+Data came in the form of `.csv` files
+
+## Data Quality
+
+I would consider the data of good quality. I have no reason to believe the data
+was biased in anyway as it is real life loan data.
+
+# Ethics
+
+## Ethical Issues in Data Sourcing and Extraction
+
+The information provided in the dataset was willingly provided by customers 
+themselves so I don't have concerns about the ethics of its sourcing/extraction.
+The person level data did not have any personal identifiers in it.
+
+## Ethical Implications of Business Requirements
+
+I do not feel there are any bad ethical implications of this business question.
+
+# Analysis
+
+## Stages in the Data Analysis Process
+
+- Reading in the data
+- Cleaning the data
+- Making a visualisation dataset, and a modelling dataset
+- Using visualisation dataset to gain insight into how variables affect defaults
+- Using modelling dataset to create predictive models for what makes customers
+  likely to default on loans.
+  
+## Tools for Data Analysis
+
+GGplot, logistic regression modelling, random forest modelling, linear 
+regression modelling
+
+## Types of Analysis
+
+### Descriptive Analytics / Diagnostic Analytics
+
+Created plots based on loans that had already been paid/defaulted. And used 
+these plots for insights. Tried to see if there were trends in those who
+defaulted on loans compared to those who paid the loans successfully.
+
+### Predictive Analytics
+
+Created various predictive models using the available data.
+
+
+
+
+
+
+
+
+
+
+
+
+
